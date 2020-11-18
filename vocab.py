@@ -160,7 +160,16 @@ class VocabEntry(object):
         ###     Connect `words2charindices()` and `pad_sents_char()` which you've defined in 
         ###     previous parts
         
-
+        sents2int = self.words2charindices(sents)
+        sent_padded = torch.tensor(pad_sents_char(sents2int, self.char2id['<pad>']))
+        batch_size = sent_padded.shape[0]
+        max_sentence_length = sent_padded.shape[1]
+        max_word_length = sent_padded.shape[2]
+        print('Tensor shape BEFORE reshape: {}'.format(sent_padded.shape))
+        print('.' * 80)
+        sent_padded = sent_padded.view(max_sentence_length,batch_size,max_word_length)
+        print('Tensor shape AFTER reshape: {}'.format(sent_padded.shape))
+        return sent_padded
         ### END YOUR CODE
 
     def to_input_tensor(self, sents: List[List[str]], device: torch.device) -> torch.Tensor:
