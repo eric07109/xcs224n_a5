@@ -16,13 +16,11 @@ class Highway(nn.Module):
 
     def forward(self, convolution_outputs):
         # batch operation
-        highway_outputs = []
-        for conv_output in convolution_outputs:
-            x_proj = nn.ReLU(self.projection_weights(convolution_outputs))
-            x_gate = nn.Sigmoid(self.gate_weights(convolution_outputs))
-            x_highway = (x_gate * x_proj) + ((1 - x_gate) * x_proj)
-            highway_outputs.append(x_highway)
-        return highway_outputs
+        x_proj = nn.ReLU(self.projection_weights(convolution_outputs))
+        x_gate = nn.Sigmoid(self.gate_weights(convolution_outputs))
+        x_highway = (x_gate * x_proj) + ((1 - x_gate) * x_proj)
+        highway_outputs.append(x_highway)
+
 
 ### END YOUR CODE 
 
